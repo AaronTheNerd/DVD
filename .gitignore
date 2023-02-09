@@ -1,0 +1,12 @@
+build/
+glad.zip
+include/glad/
+include/KHR/
+src/gl.c
+example/
+.vscode/
+include/stb/
+include/linmath.h
+include/glm/
+glm-*
+glm/*
