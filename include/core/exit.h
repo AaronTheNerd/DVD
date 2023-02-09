@@ -5,7 +5,7 @@
 
 namespace atn::core {
 
-void exit_handler(int);
+void exit_handler(int, const char*);
 
 }  // namespace atn::core
 

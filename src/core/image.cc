@@ -3,13 +3,16 @@
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
 #include <stb/stb_image.h>
+#include <sstream>
 
 atn::core::Image::Image(const char* filename)
     : width(), height(), channel_count(), texture_id() {
   unsigned char* data =
       stbi_load(filename, &this->width, &this->height, &this->channel_count, 0);
   if (!data) {
-    atn::core::exit_handler(EXIT_FAILURE);
+    std::stringstream ss;
+    ss << "Failed to load image: " << filename;
+    atn::core::exit_handler(EXIT_FAILURE, ss.str().c_str());
   }
   glGenTextures(1, &this->texture_id);
   glBindTexture(GL_TEXTURE_2D, this->texture_id);

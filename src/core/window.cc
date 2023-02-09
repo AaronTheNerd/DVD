@@ -1,3 +1,4 @@
+#include "core/exit.h"
 #include "core/window.h"
 #include <glad/gl.h>
 #include <stdio.h>
@@ -20,8 +21,7 @@ atn::core::Window::Window(uint width, uint height) : window() {
 
   // Check that window was created successfully
   if (!this->window) {
-    glfwTerminate();
-    exit(EXIT_FAILURE);
+    atn::core::exit_handler(EXIT_FAILURE, "Window failed to load");
   }
   // Make context current
   glfwMakeContextCurrent(this->window);

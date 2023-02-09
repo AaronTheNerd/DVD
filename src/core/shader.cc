@@ -1,6 +1,7 @@
 /*
 Code from learnopengl.com's getting started
 */
+#include "core/exit.h"
 #include "core/shader.h"
 #include <fstream>
 #include <iostream>
@@ -30,8 +31,9 @@ atn::core::Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     vertexCode = vShaderStream.str();
     fragmentCode = fShaderStream.str();
   } catch (std::ifstream::failure &e) {
-    std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ: " << e.what()
-              << std::endl;
+    std::stringstream ss;
+    ss << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ: " << e.what();
+    atn::core::exit_handler(EXIT_FAILURE, ss.str().c_str());
   }
   const char *vShaderCode = vertexCode.c_str();
   const char *fShaderCode = fragmentCode.c_str();
@@ -151,21 +153,23 @@ void atn::core::Shader::checkCompileErrors(GLuint shader, std::string type) {
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success) {
       glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-      std::cout
+      std::stringstream ss;
+      ss
           << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n"
           << infoLog
-          << "\n -- --------------------------------------------------- -- "
-          << std::endl;
+          << "\n -- --------------------------------------------------- -- ";
+      atn::core::exit_handler(EXIT_FAILURE, ss.str().c_str());
     }
   } else {
     glGetProgramiv(shader, GL_LINK_STATUS, &success);
     if (!success) {
       glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-      std::cout
+      std::stringstream ss;
+      ss
           << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n"
           << infoLog
-          << "\n -- --------------------------------------------------- -- "
-          << std::endl;
+          << "\n -- --------------------------------------------------- -- ";
+      atn::core::exit_handler(EXIT_FAILURE, ss.str().c_str());
     }
   }
 }
